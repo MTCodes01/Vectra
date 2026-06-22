@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to SVG Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+            <header>
+                <h1>Image to SVG</h1>
+                <p class="subtitle">Transform your images into scalable vector graphics</p>
+            </header>
+
+            <div class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    <p class="upload-text">Drag & drop an image here</p>
+                    <p class="upload-subtext">or click to browse</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+                <div class="preview-container" id="previewContainer" style="display: none;">
+                    <img id="previewImage" alt="Preview">
+                    <button class="remove-btn" id="removeBtn">✕</button>
+                </div>
+            </section>
+
+            <!-- Options Panel -->
+            <section class="options-panel">
+                <div class="panel-header">
+                    <svg class="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24"/>
+                    </svg>
+                    <h2>Image Options</h2>
+                </div>
+
+                <!-- Color Mode -->
+                <div class="option-group">
+                    <label class="option-label">Color Mode</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="colorMode" value="colored" checked>
+                            <span class="radio-custom"></span>
+                            <span>Colored</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="colorMode" value="blackwhite">
+                            <span class="radio-custom"></span>
+                            <span>Black & White</span>
+                        </label>
+                    </div>
+                    <p class="option-description">Choose whether the output should be colored or black and white</p>
+                </div>
+
+                <!-- Detail Level -->
+                <div class="option-group">
+                    <label class="option-label">Detail Level</label>
+                    <div class="radio-group radio-group-triple">
+                        <label class="radio-option">
+                            <input type="radio" name="detailLevel" value="high" checked>
+                            <span class="radio-custom"></span>
+                            <span>High</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="detailLevel" value="medium">
+                            <span class="radio-custom"></span>
+                            <span>Medium</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="detailLevel" value="low">
+                            <span class="radio-custom"></span>
+                            <span>Low</span>
+                        </label>
+                    </div>
+                    <p class="option-description">Higher detail creates more accurate vectors but larger files.</p>
+                </div>
+
+                <!-- Output Style -->
+                <div class="option-group">
+                    <label class="option-label">Output Style</label>
+                    <div class="radio-group radio-group-triple">
+                        <label class="radio-option">
+                            <input type="radio" name="outputStyle" value="full" checked>
+                            <span class="radio-custom"></span>
+                            <span>Full Photo</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="outputStyle" value="outline">
+                            <span class="radio-custom"></span>
+                            <span>Outline Only</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="outputStyle" value="outline-shading">
+                            <span class="radio-custom"></span>
+                            <span>Outline + Shading</span>
+                        </label>
+                    </div>
+                    <p class="option-description">Choose the visual style of the generated vector.</p>
+                </div>
+
+                <!-- Outline Detail -->
+                <div class="option-group" id="outlineDetailGroup" style="display: none;">
+                    <label class="option-label">Outline Detail</label>
+                    <div class="slider-container">
+                        <input type="range" id="outlineDetail" min="10" max="150" value="70" class="slider">
+                        <div class="slider-value" id="outlineDetailValue">70</div>
+                    </div>
+                    <p class="option-description">Adjust to capture more or fewer edge details in outline modes.</p>
+                </div>
+
+                <!-- Convert Button -->
+                <button class="convert-btn" id="convertBtn" disabled>
+                    <span class="btn-text">Apply to All</span>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </section>
+
+            <!-- Output Section -->
+            <section class="output-section" id="outputSection" style="display: none;">
+                <h2>SVG Output</h2>
+                <div class="output-preview" id="outputPreview"></div>
+                <div class="output-actions">
+                    <button class="action-btn download-btn" id="downloadBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Download SVG
+                    </button>
+                    <button class="action-btn copy-btn" id="copyBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy Code
+                    </button>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="credits">
+            <a href="https://sreedevss.in" target="_blank" rel="noopener noreferrer">Made with <span class="heart">❤️</span> by MT</a>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/imagetracerjs@1.2.6/imagetracer_v1.2.6.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
