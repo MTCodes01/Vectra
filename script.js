@@ -9,6 +9,36 @@ const outputSection = document.getElementById('outputSection');
 const outputPreview = document.getElementById('outputPreview');
 const downloadBtn = document.getElementById('downloadBtn');
 const copyBtn = document.getElementById('copyBtn');
+const themeToggle = document.getElementById('themeToggle');
+const themeToggleLabel = document.getElementById('themeToggleLabel');
+
+function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    themeToggleLabel.textContent = `${nextTheme} mode`;
+    themeToggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+}
+
+let savedTheme = 'dark';
+try {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+        savedTheme = storedTheme;
+    }
+} catch (error) {
+    console.warn('Unable to read saved theme:', error);
+}
+setTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    try {
+        localStorage.setItem('theme', nextTheme);
+    } catch (error) {
+        console.warn('Unable to save theme preference:', error);
+    }
+});
 
 // Outline Slider Elements
 const outputStyleRadios = document.querySelectorAll('input[name="outputStyle"]');
