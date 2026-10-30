@@ -3,41 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to SVG Converter</title>
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="description" content="Transform raster images into clean, scalable vector graphics right in your browser. Fast, local, private, and works offline as a Progressive Web App.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vectra">
+    <title>Vectra | Image to SVG Converter</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-          <script>
+    <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('serviceworker.js')
           .then(function(registration) {
-            console.log('Service Worker registered with scope:', registration.scope);
+            console.log('[Vectra PWA] Service Worker registered with scope:', registration.scope);
           })
           .catch(function(error) {
-            console.log('Service Worker registration failed:', error);
+            console.log('[Vectra PWA] Service Worker registration failed:', error);
           });
       });
     }
-  </script>
+    </script>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
-        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>
-        </svg>
-        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/>
-        </svg>
-        <span id="themeToggleLabel">Light mode</span>
-    </button>
+    <div class="top-nav-actions">
+        <button class="nav-btn install-btn" id="installAppBtn" type="button" style="display: none;" aria-label="Install Vectra App">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+            <span>Install App</span>
+        </button>
+        <button class="nav-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
+            <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>
+            </svg>
+            <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/>
+            </svg>
+            <span id="themeToggleLabel">Light mode</span>
+        </button>
+    </div>
     <div class="container">
-            <header>
-                <h1>Image to SVG</h1>
-                <p class="subtitle">Transform your images into scalable vector graphics</p>
-            </header>
+        <header>
+            <h1>Image to SVG</h1>
+            <p class="subtitle">Transform your images into scalable vector graphics</p>
+        </header>
 
-            <div class="main-content">
+        <div class="main-content">
             <!-- Upload Section -->
             <section class="upload-section">
                 <div class="upload-area" id="uploadArea">
