@@ -356,3 +356,35 @@ function applyEdgeDetection(imageData, threshold) {
         data[i+3] = output[i+3];
     }
 }
+
+
+// Progressive Web App (PWA) Install Prompt Handling
+let deferredInstallPrompt = null;
+const installAppBtn = document.getElementById('installAppBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar on mobile
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installAppBtn) {
+        installAppBtn.style.display = 'inline-flex';
+    }
+});
+
+if (installAppBtn) {
+    installAppBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        const { outcome } = await deferredInstallPrompt.userChoice;
+        console.log('[Vectra PWA] User install choice:', outcome);
+        deferredInstallPrompt = null;
+        installAppBtn.style.display = 'none';
+    });
+}
+
+window.addEventListener('appinstalled', () => {
+    console.log('[Vectra PWA] App was successfully installed');
+    if (installAppBtn) {
+        installAppBtn.style.display = 'none';
+    }
+});
